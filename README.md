@@ -1,3 +1,6 @@
+Wichtig: Die Netlify Function läuft jetzt im modernen Functions-Format (ES Modules / export default).
+Delete im Zweifel alte Datei netlify/functions/orders.js aus deinem Repo, sodass nur noch orders.mjs vorhanden ist.
+
 # Kebab-Bestellung – Netlify Final Fix
 
 Diese Version behebt den Netlify-Function-Absturz mit `@netlify/blobs`.
@@ -18,3 +21,6 @@ Neuere Netlify-Runtimes erwarten hier `import(...)`.
    - `/.netlify/functions/orders?health=1`
    - `/azubi`
    - `/index.html`
+
+
+Blobs-Fix: In Lambda-kompatiblen Netlify Functions wird vor getStore() jetzt connectLambda(event) aufgerufen, damit Netlify Blobs im Runtime-Kontext korrekt initialisiert wird.
