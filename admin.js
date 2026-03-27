@@ -55,6 +55,11 @@ function storePin(pin) {
   sessionStorage.setItem(getAdminSessionKey(), 'yes');
 }
 
+function clearPinSession() {
+  sessionStorage.removeItem(getAdminSessionKey());
+  sessionStorage.removeItem(getAdminPinSessionKey());
+}
+
 function isUnlocked() {
   return sessionStorage.getItem(getAdminSessionKey()) === 'yes' && Boolean(getStoredPin() || !hasLiveApi());
 }
@@ -104,6 +109,11 @@ function dateToValue(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
+function isPinProblem(message) {
+  const text = String(message || '').toLowerCase();
+  return text.includes('pin') || text.includes('401');
+}
+
 function renderOrders() {
   if (!currentOrders.length) {
     ordersList.innerHTML = '<div class="empty-state">Noch keine Bestellungen für diesen Termin vorhanden.</div>';
@@ -147,7 +157,7 @@ function renderOrders() {
           <div class="order-main">
             <div>
               <h3>${escapeHtml(order.employee_name)}</h3>
-              <p>${items.length} ${items.length === 1 ? 'Artikel' : 'Artikel'} im Warenkorb</p>
+              <p>${items.length} Artikel im Warenkorb</p>
             </div>
             <div class="order-price">${formatEuro(getOrderTotal(order))}</div>
           </div>
@@ -190,10 +200,9 @@ async function loadOrders(silent = false) {
     lastSync.textContent = `Letzte Aktualisierung: ${formatDateTime(new Date())}`;
   } catch (error) {
     console.error(error);
-    if (String(error.message || '').toLowerCase().includes('pin')) {
+    if (isPinProblem(error.message)) {
       pinMessage.textContent = 'PIN falsch oder Sitzung abgelaufen.';
-      sessionStorage.removeItem(getAdminSessionKey());
-      sessionStorage.removeItem(getAdminPinSessionKey());
+      clearPinSession();
       pinCard.classList.remove('hidden-block');
       adminContent.classList.add('hidden-block');
       window.clearInterval(refreshTimer);
@@ -211,18 +220,20 @@ function getCurrentWhatsAppText() {
 
 pinForm.addEventListener('submit', async (event) => {
   event.preventDefault();
+  const pin = pinInput.value.trim();
   pinMessage.textContent = 'Prüfe PIN...';
 
   try {
-    storePin(pinInput.value.trim());
-    await fetchOrders(dateToValue(orderWindow.targetThursday), getStoredPin());
+    storePin(pin);
+    await fetchOrders(dateToValue(orderWindow.targetThursday), pin);
     pinMessage.textContent = 'PIN korrekt.';
     unlock();
   } catch (error) {
     console.error(error);
-    sessionStorage.removeItem(getAdminSessionKey());
-    sessionStorage.removeItem(getAdminPinSessionKey());
-    pinMessage.textContent = 'PIN falsch.';
+    clearPinSession();
+    pinMessage.textContent = isPinProblem(error.message)
+      ? 'PIN falsch.'
+      : `Serverproblem: ${error.message}`;
   }
 });
 
@@ -240,9 +251,10 @@ copyBtn.addEventListener('click', async () => {
 });
 
 whatsappBtn.addEventListener('click', () => {
-  const text = encodeURIComponent(getCurrentWhatsAppText());
-  const base = config.whatsappNumber ? `https://wa.me/${config.whatsappNumber}?text=${text}` : `https://wa.me/?text=${text}`;
-  window.open(base, '_blank', 'noopener,noreferrer');
+  const text = getCurrentWhatsAppText();
+  const baseNumber = String(config.whatsappNumber || '').replace(/\D+/g, '');
+  const baseUrl = baseNumber ? `https://wa.me/${baseNumber}` : 'https://wa.me/';
+  window.open(`${baseUrl}?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
 });
 
 setModeBadge();

@@ -1,7 +1,8 @@
 const { getStore } = require('@netlify/blobs');
 
 const JSON_HEADERS = {
-  'Content-Type': 'application/json; charset=utf-8'
+  'Content-Type': 'application/json; charset=utf-8',
+  'Cache-Control': 'no-store'
 };
 
 function json(statusCode, payload) {
@@ -19,8 +20,14 @@ function getStoreInstance() {
   });
 }
 
-function getAdminPin(headers = {}) {
-  return headers['x-admin-pin'] || headers['X-Admin-Pin'] || '';
+function getAdminPin(event) {
+  const headers = event.headers || {};
+  return (
+    headers['x-admin-pin'] ||
+    headers['X-Admin-Pin'] ||
+    event.queryStringParameters?.pin ||
+    ''
+  );
 }
 
 function isValidDate(value) {
@@ -32,7 +39,7 @@ function cleanText(value, maxLength = 200) {
 }
 
 function cleanAmount(value) {
-  const numeric = Number(value);
+  const numeric = Number(String(value).replace(',', '.'));
   if (Number.isNaN(numeric) || numeric < 0) {
     throw new Error('Ungültiger Betrag.');
   }
@@ -54,12 +61,12 @@ function buildOrderKey(employeeName, targetDate) {
 }
 
 function requireAdmin(event) {
-  const expectedPin = process.env.ADMIN_PIN;
+  const expectedPin = String(process.env.ADMIN_PIN || '').trim();
   if (!expectedPin) {
     throw new Error('ADMIN_PIN fehlt in den Netlify-Umgebungsvariablen.');
   }
 
-  return getAdminPin(event.headers) === expectedPin;
+  return String(getAdminPin(event)).trim() === expectedPin;
 }
 
 async function readOrder(store, key) {
@@ -103,6 +110,23 @@ function normalizeItems(body) {
       notes: cleanText(body.notes, 600)
     }
   ];
+}
+
+async function handleHealth(event) {
+  let adminOk = false;
+  try {
+    adminOk = requireAdmin(event);
+  } catch {
+    adminOk = false;
+  }
+
+  return json(200, {
+    ok: true,
+    function: 'orders',
+    adminPinConfigured: Boolean(String(process.env.ADMIN_PIN || '').trim()),
+    adminAuthorized: adminOk,
+    method: event.httpMethod
+  });
 }
 
 async function handleCreate(event) {
@@ -193,6 +217,14 @@ async function handleDelete(event) {
 
 exports.handler = async (event) => {
   try {
+    if (event.httpMethod === 'OPTIONS') {
+      return { statusCode: 204, headers: JSON_HEADERS, body: '' };
+    }
+
+    if (event.httpMethod === 'GET' && event.queryStringParameters?.health === '1') {
+      return await handleHealth(event);
+    }
+
     if (event.httpMethod === 'POST') return await handleCreate(event);
     if (event.httpMethod === 'GET') return await handleList(event);
     if (event.httpMethod === 'DELETE') return await handleDelete(event);

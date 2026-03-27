@@ -1,48 +1,21 @@
-# Kebap-Bestellung – Netlify only
+# Kebap-Bestellung – Netlify Final
 
-Diese Version ist fertig für Netlify:
-- Mitarbeiter wählen
-- komplette Speisekarte antippen
-- Sonderwünsche eintragen
-- bezahlten Betrag erfassen
-- Donnerstag 10:00 Uhr Logik
-- Azubi-Seite mit PIN
-- WhatsApp-Export
-- Datenspeicherung über Netlify Functions + Netlify Blobs
+## Wichtige Netlify-Einstellungen
 
-## Start
-
-1. Projekt nach GitHub hochladen
-2. In Netlify importieren
-3. Umgebungsvariable setzen:
+1. Repository mit **diesem Ordnerinhalt** deployen.
+2. Umgebungsvariable anlegen:
    - `ADMIN_PIN=2610`
-4. In `config.js` die WhatsApp-Nummer eintragen
-5. Deploy auslösen
+3. Nach Änderungen an Umgebungsvariablen immer neu deployen.
 
-## Wichtige Dateien
+## Tests
 
-- `index.html` – Bestellseite
-- `azubi.html` – Verwaltungsseite
-- `data.js` – Mitarbeiter und Speisekarte
-- `app.js` – Logik der Bestellseite
-- `admin.js` – Azubi-Verwaltung
-- `netlify/functions/orders.js` – Speicherung / Laden / Löschen
+- Bestellung: `/index.html`
+- Azubi: `/azubi.html` oder `/azubi`
+- Funktions-Healthcheck: `/.netlify/functions/orders?health=1`
+- Funktions-Healthcheck mit PIN: `/.netlify/functions/orders?health=1&pin=2610`
 
-## Hinweis
+## Hinweise
 
-Wenn `demoMode` in `config.js` auf `true` steht, wird lokal im Browser gespeichert.
-Für den Live-Betrieb auf Netlify sollte `demoMode: false` aktiv bleiben.
-
-
-## Update: Warenkorb-Version
-- Mehrere Gerichte pro Mitarbeiter und Termin
-- Sonderwunsch gehört jetzt pro Artikel in den Warenkorb
-- Warenkorb-Einträge können vor dem Speichern bearbeitet oder gelöscht werden
-- Azubi-Ansicht zeigt komplette Warenkörbe
-
-
-## Update: komplette Speisekarte + Bilder
-- Alle-Tab für die komplette Speisekarte
-- Gerichtsspezifische Food-Fotos auf den Kacheln
-- Warenkorb mit Bild, Bearbeiten und Löschen
-- Dariusz/Bogdan entfernt
+- `PIN falsch` wird jetzt nur noch bei echter 401 gezeigt.
+- Andere Serverfehler werden auf der Azubi-Seite als Serverproblem angezeigt.
+- Der Warenkorb speichert mehrere Artikel pro Mitarbeiter und Donnerstag.
