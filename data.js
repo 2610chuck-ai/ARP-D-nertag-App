@@ -73,80 +73,80 @@ export const categoryMedia = {
 };
 
 export const menuItems = [
-  {
+ {
     category: 'Döner',
     items: [
-      { id: '01', name: 'Döner klein', price: 5.00 },
-      { id: '02', name: 'Döner Kebap', price: 8.00 },
-      { id: '03', name: 'Döner Kebap XXL', price: 13.00 },
-      { id: '04', name: 'Vegetarisch mit Käse', price: 8.00 },
-      { id: '05', name: 'Vegetarisch XXL mit Käse', price: 13.00 },
-      { id: '07', name: 'Yufka Kebap', subtitle: 'zusammengerollt', price: 9.00 },
-      { id: '08', name: 'Yufka Spezial', subtitle: 'mit Pommes und Salat', price: 10.00 },
-      { id: '09', name: 'Yufka Vegetarisch', subtitle: 'mit Käse', price: 9.00 },
-      { id: '10', name: 'Falafel Yufka', subtitle: 'mit Salat', price: 9.00 },
-      { id: '11', name: 'Döner Teller', subtitle: 'mit Salat und Pommes', price: 13.00 },
-      { id: '12', name: 'Falafel Teller', subtitle: 'mit Salat und Pommes', price: 13.00 },
-      { id: '13', name: 'Dönerfleisch 1 Kg', subtitle: 'nur zum Mitnehmen', price: 32.00 }
+      { id: '01', name: 'Döner klein', price: 5.00, notePlaceholder: 'z. B. alles, ohne Zwiebeln, scharf' },
+      { id: '02', name: 'Döner Kebap', price: 8.00, notePlaceholder: 'z. B. alles, nur Fleisch, ohne Rotkraut, scharf' },
+      { id: '03', name: 'Döner Kebap XXL', price: 13.00, notePlaceholder: 'z. B. alles, extra scharf, ohne Zwiebeln' },
+      { id: '04', name: 'Vegetarisch mit Käse', price: 8.00, notePlaceholder: 'z. B. mit allem, ohne Zwiebeln' },
+      { id: '05', name: 'Vegetarisch XXL mit Käse', price: 13.00, notePlaceholder: 'z. B. mit allem, ohne Tomaten' },
+      { id: '07', name: 'Yufka Kebap', subtitle: 'zusammengerollt', price: 9.00, notePlaceholder: 'z. B. nur Fleisch, Mais, Soße, scharf' },
+      { id: '08', name: 'Yufka Spezial', subtitle: 'mit Pommes und Salat', price: 10.00, notePlaceholder: 'z. B. ohne Zwiebeln, mit viel Soße, scharf' },
+      { id: '09', name: 'Yufka Vegetarisch', subtitle: 'mit Käse', price: 9.00, notePlaceholder: 'z. B. mit allem, ohne Weißkraut' },
+      { id: '10', name: 'Falafel Yufka', subtitle: 'mit Salat', price: 9.00, notePlaceholder: 'z. B. nur Salat und Soße, scharf' },
+      { id: '11', name: 'Döner Teller', subtitle: 'mit Salat und Pommes', price: 13.00, notePlaceholder: 'z. B. getrennt, ohne Zwiebeln, extra Soße' },
+      { id: '12', name: 'Falafel Teller', subtitle: 'mit Salat und Pommes', price: 13.00, notePlaceholder: 'z. B. extra Soße, ohne Tomaten' },
+      { id: '13', name: 'Dönerfleisch 1 Kg', subtitle: 'nur zum Mitnehmen', price: 32.00, notePlaceholder: 'z. B. bitte gut verpacken' }
     ]
   },
   {
     category: 'Box',
     items: [
-      { id: '15', name: 'Döner Box', subtitle: 'mit Pommes', price: 8.00 },
-      { id: '16', name: 'Döner Box', subtitle: 'mit Salat', price: 8.00 },
-      { id: '17', name: 'Döner Box', subtitle: 'mit Pommes und Salat', price: 9.00 },
-      { id: '18', name: 'Döner Box', subtitle: 'nur mit Fleisch', price: 11.00 },
-      { id: '19', name: 'Vegi Box', subtitle: 'mit Pommes, Käse und Salat', price: 8.00 },
-      { id: '20', name: 'Falafel Box', subtitle: 'mit Pommes und Salat', price: 8.00 },
-      { id: '21', name: 'Pommes Box', price: 5.00 }
+      { id: '15', name: 'Döner Box', subtitle: 'mit Pommes', price: 8.00, notePlaceholder: 'z. B. nur Fleisch und Pommes, scharf' },
+      { id: '16', name: 'Döner Box', subtitle: 'mit Salat', price: 8.00, notePlaceholder: 'z. B. ohne Zwiebeln, extra Soße' },
+      { id: '17', name: 'Döner Box', subtitle: 'mit Pommes und Salat', price: 9.00, notePlaceholder: 'z. B. wenig Salat, mehr Pommes, scharf' },
+      { id: '18', name: 'Döner Box', subtitle: 'nur mit Fleisch', price: 11.00, notePlaceholder: 'z. B. mit extra Soße, scharf' },
+      { id: '19', name: 'Vegi Box', subtitle: 'mit Pommes, Käse und Salat', price: 8.00, notePlaceholder: 'z. B. ohne Käse, mit mehr Salat' },
+      { id: '20', name: 'Falafel Box', subtitle: 'mit Pommes und Salat', price: 8.00, notePlaceholder: 'z. B. extra Soße, ohne Zwiebeln' },
+      { id: '21', name: 'Pommes Box', price: 5.00, notePlaceholder: 'z. B. mit Ketchup, Mayo oder beidem' }
     ]
   },
   {
     category: 'Lahmacun',
     items: [
-      { id: '25', name: 'Lahmacun', subtitle: 'gerollt', price: 7.00 },
-      { id: '26', name: 'Lahmacun mit Salat', subtitle: 'gerollt', price: 9.00 },
-      { id: '27', name: 'Lahmacun Spezial', subtitle: 'mit Salat und Dönerfleisch gerollt', price: 10.00 },
-      { id: '28', name: 'Fladenbrot', price: 2.50 },
-      { id: '29', name: 'Ketchup oder Mayonnaise', price: 0.50 },
-      { id: '30', name: 'Extra Soße', price: 1.00 },
-      { id: '31', name: 'Extra Fleisch', price: 2.00 },
-      { id: '32', name: 'Käse', price: 1.00 },
-      { id: '33', name: 'Pizzateig', price: 1.00 }
+      { id: '25', name: 'Lahmacun', subtitle: 'gerollt', price: 7.00, notePlaceholder: 'z. B. ohne Salat, scharf' },
+      { id: '26', name: 'Lahmacun mit Salat', subtitle: 'gerollt', price: 9.00, notePlaceholder: 'z. B. ohne Zwiebeln, mit extra Soße' },
+      { id: '27', name: 'Lahmacun Spezial', subtitle: 'mit Salat und Dönerfleisch gerollt', price: 10.00, notePlaceholder: 'z. B. nur Fleisch, wenig Salat, scharf' },
+      { id: '28', name: 'Fladenbrot', price: 2.50, notePlaceholder: 'z. B. extra dazu' },
+      { id: '29', name: 'Ketchup oder Mayonnaise', price: 0.50, notePlaceholder: 'z. B. Ketchup, Mayo oder beides' },
+      { id: '30', name: 'Extra Soße', price: 1.00, notePlaceholder: 'z. B. Cocktail, Joghurt oder scharf' },
+      { id: '31', name: 'Extra Fleisch', price: 2.00, notePlaceholder: 'z. B. extra zum Hauptgericht' },
+      { id: '32', name: 'Käse', price: 1.00, notePlaceholder: 'z. B. extra zum Hauptgericht' },
+      { id: '33', name: 'Pizzateig', price: 1.00, notePlaceholder: 'z. B. extra dazu' }
     ]
   },
   {
     category: 'Pide',
     items: [
-      { id: '35', name: 'Pide', subtitle: 'mit Hackfleisch, Käse, Ei', price: 10.00 },
-      { id: '36', name: 'Pide', subtitle: 'mit Hackfleisch, Käse', price: 9.00 },
-      { id: '37', name: 'Pide', subtitle: 'mit Käse', price: 8.50 },
-      { id: '38', name: 'Pide', subtitle: 'mit Käse, Spinat und Ei', price: 11.00 },
-      { id: '39', name: 'Pide', subtitle: 'mit Spinat, Käse, Ei, dazu Beilagensalat', price: 15.00 },
-      { id: '40', name: 'Pide', subtitle: 'mit Dönerfleisch und Käse', price: 12.00 },
-      { id: '41', name: 'Pide', subtitle: 'mit Sucuk und Käse', price: 11.00 },
-      { id: '42', name: 'Pide', subtitle: 'mit Putenschinken, Rindersalami, Pilzen', price: 11.00 }
+      { id: '35', name: 'Pide', subtitle: 'mit Hackfleisch, Käse, Ei', price: 10.00, notePlaceholder: 'z. B. gut gebacken' },
+      { id: '36', name: 'Pide', subtitle: 'mit Hackfleisch, Käse', price: 9.00, notePlaceholder: 'z. B. ohne Käse' },
+      { id: '37', name: 'Pide', subtitle: 'mit Käse', price: 8.50, notePlaceholder: 'z. B. extra knusprig' },
+      { id: '38', name: 'Pide', subtitle: 'mit Käse, Spinat und Ei', price: 11.00, notePlaceholder: 'z. B. ohne Ei' },
+      { id: '39', name: 'Pide', subtitle: 'mit Spinat, Käse, Ei, dazu Beilagensalat', price: 15.00, notePlaceholder: 'z. B. Salat extra verpacken' },
+      { id: '40', name: 'Pide', subtitle: 'mit Dönerfleisch und Käse', price: 12.00, notePlaceholder: 'z. B. extra Fleisch, scharf' },
+      { id: '41', name: 'Pide', subtitle: 'mit Sucuk und Käse', price: 11.00, notePlaceholder: 'z. B. ohne Käse, gut gebacken' },
+      { id: '42', name: 'Pide', subtitle: 'mit Putenschinken, Rindersalami, Pilzen', price: 11.00, notePlaceholder: 'z. B. ohne Pilze' }
     ]
   },
   {
     category: 'Seele',
     items: [
-      { id: '50', name: 'Seele Sucuk', subtitle: 'mit Knoblauchwurst, Pilzen', price: 11.00 },
-      { id: '51', name: 'Seele vegetarisch', subtitle: 'mit Pilzen, Paprika und frischen Tomaten', price: 10.00 },
-      { id: '52', name: 'Seele Issa', subtitle: 'mit Dönerfleisch, Peperoni', price: 11.50 },
-      { id: '53', name: 'Seele König', subtitle: 'scharf, mit Dönerfleisch, Sucuk und Zwiebeln', price: 12.50 }
+      { id: '50', name: 'Seele Sucuk', subtitle: 'mit Knoblauchwurst, Pilzen', price: 11.00, notePlaceholder: 'z. B. ohne Pilze' },
+      { id: '51', name: 'Seele vegetarisch', subtitle: 'mit Pilzen, Paprika und frischen Tomaten', price: 10.00, notePlaceholder: 'z. B. ohne Paprika' },
+      { id: '52', name: 'Seele Issa', subtitle: 'mit Dönerfleisch, Peperoni', price: 11.50, notePlaceholder: 'z. B. extra scharf, ohne Peperoni' },
+      { id: '53', name: 'Seele König', subtitle: 'scharf, mit Dönerfleisch, Sucuk und Zwiebeln', price: 12.50, notePlaceholder: 'z. B. weniger scharf, ohne Zwiebeln' }
     ]
   },
   {
     category: 'Specials',
     items: [
-      { id: '54', name: 'Putenschnitzel', subtitle: 'mit Salat und Pommes', price: 11.00 },
-      { id: '55', name: 'Chicken Nuggets 9 Stück', subtitle: 'mit Pommes', price: 10.00 },
-      { id: '56', name: 'Gemischter Salat klein', subtitle: 'mit allem und Käse', price: 7.00 },
-      { id: '57', name: 'Gemischter Salat groß', subtitle: 'mit allem und Käse', price: 8.00 },
-      { id: '58', name: 'Thunfisch Salat', price: 10.00 },
-      { id: '59', name: 'Gemischter Salat mit Dönerfleisch', price: 10.00 }
+      { id: '54', name: 'Putenschnitzel', subtitle: 'mit Salat und Pommes', price: 11.00, notePlaceholder: 'z. B. Soße extra, ohne Salat' },
+      { id: '55', name: 'Chicken Nuggets 9 Stück', subtitle: 'mit Pommes', price: 10.00, notePlaceholder: 'z. B. mit Ketchup und Mayo' },
+      { id: '56', name: 'Gemischter Salat klein', subtitle: 'mit allem und Käse', price: 7.00, notePlaceholder: 'z. B. ohne Zwiebeln, ohne Käse' },
+      { id: '57', name: 'Gemischter Salat groß', subtitle: 'mit allem und Käse', price: 8.00, notePlaceholder: 'z. B. ohne Tomaten, extra Soße' },
+      { id: '58', name: 'Thunfisch Salat', price: 10.00, notePlaceholder: 'z. B. ohne Zwiebeln, extra Soße' },
+      { id: '59', name: 'Gemischter Salat mit Dönerfleisch', price: 10.00, notePlaceholder: 'z. B. extra Fleisch, ohne Zwiebeln' }
     ]
   },
   {
