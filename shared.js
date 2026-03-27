@@ -71,30 +71,32 @@ export function getOrderWindow(now = new Date()) {
   const current = new Date(now);
   const weekday = current.getDay();
   const thursdayIndex = 4;
-  const daysUntilThursday = (thursdayIndex - weekday + 7) % 7;
+
+  let daysUntilThursday;
+  if (weekday < thursdayIndex) {
+    daysUntilThursday = thursdayIndex - weekday;
+  } else if (weekday === thursdayIndex) {
+    daysUntilThursday = 0;
+  } else {
+    daysUntilThursday = 7 - weekday + thursdayIndex;
+  }
 
   const targetThursday = new Date(current);
   targetThursday.setDate(current.getDate() + daysUntilThursday);
   targetThursday.setHours(10, 0, 0, 0);
 
-  const isThursday = weekday === thursdayIndex;
-  const isAfterCutoff = isThursday && current > targetThursday;
-  const isPastThisWeek = weekday > thursdayIndex;
-
-  if (isAfterCutoff || isPastThisWeek) {
+  const isAfterCutoff = weekday === thursdayIndex && current > targetThursday;
+  if (isAfterCutoff) {
     targetThursday.setDate(targetThursday.getDate() + 7);
   }
 
-  const thisWeekThursday = new Date(current);
-  const daysToThisThursday = thursdayIndex - weekday;
-  thisWeekThursday.setDate(current.getDate() + daysToThisThursday);
-  thisWeekThursday.setHours(10, 0, 0, 0);
+  const nextWeekWarning = weekday > thursdayIndex || isAfterCutoff;
 
   return {
     now: current,
     targetThursday,
     targetThursdayDate: toLocalDateInputValue(targetThursday),
-    nextWeekWarning: current > thisWeekThursday,
+    nextWeekWarning,
     cutoffLabel: 'Donnerstag 10:00 Uhr'
   };
 }

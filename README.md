@@ -37,3 +37,10 @@ Optional:
 ## Lokal testen
 Du kannst lokal im Browser auch mit `demoMode: true` testen.
 Dann werden Daten nur im Browser gespeichert.
+
+
+## Update März 2026
+- Bestellterminal-Design mit festen Kategorien
+- Kategorien nicht mehr auswählbar, sondern dauerhaft sichtbar
+- Fix für das Datum des nächsten Donnerstags
+- Größere Touch-Karten für mobile Nutzung
