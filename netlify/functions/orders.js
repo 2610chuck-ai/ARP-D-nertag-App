@@ -1,9 +1,9 @@
-const { getStore } = require('@netlify/blobs');
-
 const JSON_HEADERS = {
   'Content-Type': 'application/json; charset=utf-8',
   'Cache-Control': 'no-store'
 };
+
+let storeModulePromise;
 
 function json(statusCode, payload) {
   return {
@@ -13,7 +13,12 @@ function json(statusCode, payload) {
   };
 }
 
-function getStoreInstance() {
+async function getStoreInstance() {
+  if (!storeModulePromise) {
+    storeModulePromise = import('@netlify/blobs');
+  }
+
+  const { getStore } = await storeModulePromise;
   return getStore({
     name: 'kebab-orders',
     consistency: 'strong'
@@ -22,12 +27,7 @@ function getStoreInstance() {
 
 function getAdminPin(event) {
   const headers = event.headers || {};
-  return (
-    headers['x-admin-pin'] ||
-    headers['X-Admin-Pin'] ||
-    event.queryStringParameters?.pin ||
-    ''
-  );
+  return headers['x-admin-pin'] || headers['X-Admin-Pin'] || event.queryStringParameters?.pin || '';
 }
 
 function isValidDate(value) {
@@ -130,7 +130,7 @@ async function handleHealth(event) {
 }
 
 async function handleCreate(event) {
-  const store = getStoreInstance();
+  const store = await getStoreInstance();
   const body = JSON.parse(event.body || '{}');
 
   const employee_name = cleanText(body.employee_name, 120);
@@ -175,7 +175,7 @@ async function handleList(event) {
     return json(401, { error: 'PIN ungültig.' });
   }
 
-  const store = getStoreInstance();
+  const store = await getStoreInstance();
   const targetDate = cleanText(event.queryStringParameters?.targetDate, 10);
   const prefix = targetDate && isValidDate(targetDate) ? `${targetDate}/` : undefined;
 
@@ -203,7 +203,7 @@ async function handleDelete(event) {
     return json(401, { error: 'PIN ungültig.' });
   }
 
-  const store = getStoreInstance();
+  const store = await getStoreInstance();
   const body = JSON.parse(event.body || '{}');
   const id = cleanText(body.id, 160);
 
@@ -230,6 +230,9 @@ exports.handler = async (event) => {
     if (event.httpMethod === 'DELETE') return await handleDelete(event);
     return json(405, { error: 'Methode nicht erlaubt.' });
   } catch (error) {
-    return json(500, { error: error.message || 'Unbekannter Serverfehler.' });
+    return json(500, {
+      error: error?.message || 'Unbekannter Serverfehler.',
+      detail: String(error?.stack || '').split('\n').slice(0, 2).join(' | ')
+    });
   }
 };

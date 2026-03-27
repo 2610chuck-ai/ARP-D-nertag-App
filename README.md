@@ -1,21 +1,20 @@
-# Kebap-Bestellung – Netlify Final
+# Kebab-Bestellung – Netlify Final Fix
 
-## Wichtige Netlify-Einstellungen
+Diese Version behebt den Netlify-Function-Absturz mit `@netlify/blobs`.
 
-1. Repository mit **diesem Ordnerinhalt** deployen.
-2. Umgebungsvariable anlegen:
-   - `ADMIN_PIN=2610`
-3. Nach Änderungen an Umgebungsvariablen immer neu deployen.
+## Ursache
+Die Function lief als CommonJS und hat `@netlify/blobs` per `require(...)` geladen.
+Neuere Netlify-Runtimes erwarten hier `import(...)`.
 
-## Tests
+## Fix
+`netlify/functions/orders.js` nutzt jetzt dynamischen Import:
+- kein `require('@netlify/blobs')` mehr
+- stattdessen `await import('@netlify/blobs')`
 
-- Bestellung: `/index.html`
-- Azubi: `/azubi.html` oder `/azubi`
-- Funktions-Healthcheck: `/.netlify/functions/orders?health=1`
-- Funktions-Healthcheck mit PIN: `/.netlify/functions/orders?health=1&pin=2610`
-
-## Hinweise
-
-- `PIN falsch` wird jetzt nur noch bei echter 401 gezeigt.
-- Andere Serverfehler werden auf der Azubi-Seite als Serverproblem angezeigt.
-- Der Warenkorb speichert mehrere Artikel pro Mitarbeiter und Donnerstag.
+## Nach dem Upload
+1. Projekt neu zu GitHub pushen
+2. In Netlify neu deployen
+3. Testen:
+   - `/.netlify/functions/orders?health=1`
+   - `/azubi`
+   - `/index.html`
