@@ -40,7 +40,7 @@ function setModeBadge() {
 
 function getCategoryMeta(categoryName) {
   return categoryMedia[categoryName] || {
-    image: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=1200&q=80',
+    image: 'images/menu/doener.png',
     tagline: 'Frisch zubereitet und direkt auswählbar'
   };
 }

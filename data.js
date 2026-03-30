@@ -25,39 +25,39 @@ export const employees = [
 
 export const categoryMedia = {
   Döner: {
-    image: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=1200&q=80',
+    image: 'images/menu/doener.png',
     tagline: 'Döner, Yufka, Teller und Klassiker'
   },
   Box: {
-    image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=1200&q=80',
+    image: 'images/menu/box.png',
     tagline: 'Boxen mit Pommes, Salat und Fleisch'
   },
   Lahmacun: {
-    image: 'https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?auto=format&fit=crop&w=1200&q=80',
+    image: 'images/menu/lahmacun.png',
     tagline: 'Lahmacun, Extras und Beilagen'
   },
   Pide: {
-    image: 'https://images.unsplash.com/photo-1548365328-9f547fb0953b?auto=format&fit=crop&w=1200&q=80',
+    image: 'images/menu/pide.png',
     tagline: 'Ofenfrische Pide-Varianten'
   },
   Seele: {
-    image: 'https://images.unsplash.com/photo-1550317138-10000687a72b?auto=format&fit=crop&w=1200&q=80',
+    image: 'images/menu/seele.png',
     tagline: 'Seele-Spezialitäten mit Käse'
   },
   Specials: {
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80',
+    image: 'images/menu/schnitzel.png',
     tagline: 'Schnitzel, Nuggets und Salate'
   },
   Pizzen: {
-    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80',
+    image: 'images/menu/pizza.png',
     tagline: 'Pizza-Klassiker und Spezialitäten'
   },
   Getränke: {
-    image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=80',
+    image: 'images/menu/getraenke.png',
     tagline: 'Softdrinks, Wasser, Ayran und mehr'
   },
   'Warme Getränke': {
-    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80',
+    image: 'images/menu/warme-getraenke.png',
     tagline: 'Kaffee, Cappuccino, Espresso und Tee'
   }
 };
@@ -340,11 +340,45 @@ function buildNotePlaceholder(category, item) {
   return 'z. B. Sonderwunsch eingeben';
 }
 
+const localImage = (filename) => `images/menu/${filename}`;
+
+const itemImageMap = {};
+[
+  { ids: ['01', '02', '03', '04', '05'], file: 'doener.png' },
+  { ids: ['07', '08', '09', '10'], file: 'yufka.png' },
+  { ids: ['11', '12'], file: 'teller.png' },
+  { ids: ['13'], file: 'doenerfleisch.png' },
+  { ids: ['15', '16', '17', '18', '19', '20'], file: 'box.png' },
+  { ids: ['21'], file: 'pommes-box.png' },
+  { ids: ['25', '26', '27'], file: 'lahmacun.png' },
+  { ids: ['28', '33'], file: 'fladenbrot.png' },
+  { ids: ['29'], file: 'ketchup-mayonnaise.png' },
+  { ids: ['30'], file: 'extra-sosse.png' },
+  { ids: ['31'], file: 'extra-fleisch.png' },
+  { ids: ['32'], file: 'kaese.png' },
+  { ids: ['35', '36', '37', '38', '39', '40', '41', '42'], file: 'pide.png' },
+  { ids: ['50', '51', '52', '53'], file: 'seele.png' },
+  { ids: ['54'], file: 'schnitzel.png' },
+  { ids: ['55'], file: 'nuggets.png' },
+  { ids: ['56', '57', '58', '59'], file: 'salat.png' },
+  { ids: ['60', '61', '62', '63', '64', '65', '66', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', 'X1'], file: 'pizza.png' },
+  { ids: ['G01', 'G02', 'G03', 'G04', 'G05', 'G06', 'G07', 'G08', 'G09', 'G10', 'G11', 'G12', 'G13', 'G14', 'G15', 'G16', 'G17', 'G18', 'G19', 'G20', 'G21', 'G22'], file: 'getraenke.png' },
+  { ids: ['W01', 'W02', 'W03', 'W04', 'W05', 'W06', 'W07', 'W08', 'W09', 'W10'], file: 'warme-getraenke.png' }
+].forEach(({ ids, file }) => {
+  ids.forEach((id) => {
+    itemImageMap[id] = localImage(file);
+  });
+});
+
+function resolveItemImage(category, item) {
+  return itemImageMap[item.id] || categoryMedia[category]?.image || localImage('doener.png');
+}
+
 export const menuItems = rawMenuItems.map((category) => ({
   ...category,
   items: category.items.map((item) => ({
     ...item,
     notePlaceholder: buildNotePlaceholder(category.category, item),
-    image: item.image || foodPhotoUrl(buildPhotoQuery(category.category, item), item.id)
+    image: item.image || resolveItemImage(category.category, item)
   }))
 }));
