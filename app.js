@@ -504,9 +504,15 @@ form.addEventListener('submit', async (event) => {
 
   try {
     const result = await createOrder(order);
-    submitMessage.textContent = result.mode === 'updated'
-      ? 'Vorhandener Warenkorb wurde aktualisiert.'
-      : 'Warenkorb gespeichert. Auf der Azubi-Seite ist er jetzt sichtbar.';
+    if (result.fallback === 'local') {
+      submitMessage.textContent = result.mode === 'updated'
+        ? 'Warenkorb lokal aktualisiert.'
+        : 'Warenkorb lokal gespeichert.';
+    } else {
+      submitMessage.textContent = result.mode === 'updated'
+        ? 'Vorhandener Warenkorb wurde aktualisiert.'
+        : 'Warenkorb gespeichert.';
+    }
 
     cartItems = [];
     amountPaidInput.value = '';

@@ -185,44 +185,7 @@ function setLocalOrders(orders) {
   localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(orders));
 }
 
-async function requestJson(path, options = {}) {
-  const response = await fetch(`${config.apiBase}${path}`, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {})
-    }
-  });
-
-  const raw = await response.text();
-  let payload = {};
-
-  try {
-    payload = raw ? JSON.parse(raw) : {};
-  } catch {
-    payload = { error: raw || 'Unbekannter Fehler' };
-  }
-
-  if (!response.ok) {
-    throw new Error(payload.error || 'Serverfehler');
-  }
-
-  return payload;
-}
-
-export async function createOrder(order) {
-  const payload = {
-    ...order,
-    created_at: new Date().toISOString()
-  };
-
-  if (hasLiveApi()) {
-    return requestJson('/orders', {
-      method: 'POST',
-      body: JSON.stringify(payload)
-    });
-  }
-
+function saveOrderLocally(payload) {
   const orders = getLocalOrders();
   const existingIndex = orders.findIndex(
     (entry) => entry.employee_name === payload.employee_name && entry.target_order_date === payload.target_order_date
@@ -259,22 +222,93 @@ export async function createOrder(order) {
   return {
     ok: true,
     mode: existingIndex >= 0 ? 'updated' : 'created',
-    order: saved
+    order: saved,
+    fallback: 'local'
   };
+}
+
+function isRecoverableApiError(error) {
+  const message = String(error?.message || '').toLowerCase();
+  return [
+    'failed to fetch',
+    'load failed',
+    'networkerror',
+    'network error',
+    'serverfehler',
+    'not found',
+    '404',
+    'unexpected token <'
+  ].some((pattern) => message.includes(pattern));
+}
+
+async function requestJson(path, options = {}) {
+  const response = await fetch(`${config.apiBase}${path}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+
+  const raw = await response.text();
+  let payload = {};
+
+  try {
+    payload = raw ? JSON.parse(raw) : {};
+  } catch {
+    payload = { error: raw || 'Unbekannter Fehler' };
+  }
+
+  if (!response.ok) {
+    throw new Error(payload.error || 'Serverfehler');
+  }
+
+  return payload;
+}
+
+export async function createOrder(order) {
+  const payload = {
+    ...order,
+    created_at: new Date().toISOString()
+  };
+
+  if (hasLiveApi()) {
+    try {
+      const result = await requestJson('/orders', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      saveOrderLocally(payload);
+      return result;
+    } catch (error) {
+      if (!isRecoverableApiError(error)) {
+        throw error;
+      }
+      return saveOrderLocally(payload);
+    }
+  }
+
+  return saveOrderLocally(payload);
 }
 
 export async function fetchOrders(targetDate = '', pin = '') {
   if (hasLiveApi()) {
-    const searchParams = new URLSearchParams();
-    if (targetDate) searchParams.set('targetDate', targetDate);
-    const query = searchParams.toString() ? `?${searchParams.toString()}` : '';
-    const data = await requestJson(`/orders${query}`, {
-      method: 'GET',
-      headers: {
-        'x-admin-pin': pin
+    try {
+      const searchParams = new URLSearchParams();
+      if (targetDate) searchParams.set('targetDate', targetDate);
+      const query = searchParams.toString() ? `?${searchParams.toString()}` : '';
+      const data = await requestJson(`/orders${query}`, {
+        method: 'GET',
+        headers: {
+          'x-admin-pin': pin
+        }
+      });
+      return data.orders || [];
+    } catch (error) {
+      if (!isRecoverableApiError(error)) {
+        throw error;
       }
-    });
-    return data.orders || [];
+    }
   }
 
   const orders = getLocalOrders();
@@ -285,18 +319,24 @@ export async function fetchOrders(targetDate = '', pin = '') {
 
 export async function deleteOrder(id, pin = '') {
   if (hasLiveApi()) {
-    return requestJson('/orders', {
-      method: 'DELETE',
-      headers: {
-        'x-admin-pin': pin
-      },
-      body: JSON.stringify({ id })
-    });
+    try {
+      return await requestJson('/orders', {
+        method: 'DELETE',
+        headers: {
+          'x-admin-pin': pin
+        },
+        body: JSON.stringify({ id })
+      });
+    } catch (error) {
+      if (!isRecoverableApiError(error)) {
+        throw error;
+      }
+    }
   }
 
   const next = getLocalOrders().filter((entry) => entry.id !== id);
   setLocalOrders(next);
-  return { ok: true };
+  return { ok: true, fallback: 'local' };
 }
 
 export function escapeHtml(value) {

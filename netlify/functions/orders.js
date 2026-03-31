@@ -28,8 +28,7 @@ async function getStoreInstance(event) {
   }
 
   return blobs.getStore({
-    name: 'kebab-orders',
-    consistency: 'strong'
+    name: 'kebab-orders'
   });
 }
 
@@ -79,7 +78,7 @@ function requireAdmin(event) {
 }
 
 async function readOrder(store, key) {
-  const raw = await store.get(key, { consistency: 'strong' });
+  const raw = await store.get(key);
   if (!raw) return null;
 
   try {
