@@ -139,7 +139,7 @@ function resetComposer(options = {}) {
 }
 
 function getFilteredCategories() {
-  const term = menuSearch.value.trim().toLowerCase();
+  const term = (menuSearch?.value || '').trim().toLowerCase();
   const source = menuItems.filter((category) => category.category === activeCategoryFilter);
 
   return source
@@ -454,13 +454,13 @@ function addOrUpdateCartItem() {
   renderCart();
 }
 
-employeeSearch.addEventListener('input', () => {
+employeeSearch?.addEventListener('input', () => {
   const term = employeeSearch.value.trim().toLowerCase();
   filteredEmployees = employees.filter((employee) => employee.toLowerCase().includes(term));
   renderEmployees(filteredEmployees);
 });
 
-menuSearch.addEventListener('input', renderMenuGrid);
+menuSearch?.addEventListener('input', renderMenuGrid);
 amountPaidInput.addEventListener('input', updatePaymentHint);
 addToCartBtn.addEventListener('click', addOrUpdateCartItem);
 cancelEditBtn.addEventListener('click', () => {
