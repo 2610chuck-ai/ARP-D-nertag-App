@@ -2,19 +2,24 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Azubi-Verwaltung</title>
-    <meta name="theme-color" content="#f97316" />
+    <meta name="theme-color" content="#09090b" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="stylesheet" href="./styles.css" />
     <script src="./config.js"></script>
   </head>
   <body>
     <div class="app-shell">
-      <header class="hero compact">
-        <div>
-          <span class="eyebrow">Azubi-Ansicht</span>
-          <h1>Bestellübersicht</h1>
-          <p class="lead">Alle Warenkörbe gesammelt, mit Summen, Rückgeld, Löschfunktion und WhatsApp-Export.</p>
+      <header class="hero compact admin-hero">
+        <div class="brand-lockup">
+          <img class="brand-logo" src="./images/kebap-noble-logo.svg" alt="Kebap Logo" />
+          <div class="brand-copy">
+            <span class="eyebrow">Azubi-Ansicht</span>
+            <h1>Bestellübersicht</h1>
+            <p class="lead">Alle Warenkörbe gesammelt, mit Summen, Rückgeld, Löschfunktion und WhatsApp-Export.</p>
+          </div>
         </div>
         <a class="ghost-link" href="./index.html">Zur Bestellung</a>
       </header>
@@ -26,7 +31,7 @@
               <h2>Zugriff</h2>
               <p>Der PIN wird serverseitig geprüft. Ohne PIN werden keine Daten geladen.</p>
             </div>
-            <span id="mode-badge-admin" class="mode-badge"></span>
+            <span id="mode-badge-admin" class="mode-badge hidden-system-badge" aria-hidden="true"></span>
           </div>
           <form id="pin-form" class="form-grid compact-grid">
             <label class="field">
@@ -97,7 +102,7 @@
             <div class="card-head">
               <div>
                 <h2>Warenkörbe</h2>
-                <p>Der Stand wird automatisch aktualisiert. Einträge können bei Bedarf gelöscht werden.</p>
+                <p>Der Azubi aktualisiert die Übersicht bewusst per Button. Einträge werden ausschließlich manuell gelöscht.</p>
               </div>
               <span id="last-sync" class="sync-text"></span>
             </div>

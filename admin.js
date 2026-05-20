@@ -41,9 +41,9 @@ let currentOrders = [];
 let refreshTimer = null;
 
 function setModeBadge() {
-  modeBadge.textContent = hasLiveApi() ? 'Live' : 'Demo';
-  modeBadge.classList.toggle('mode-live', hasLiveApi());
-  modeBadge.classList.toggle('mode-demo', !hasLiveApi());
+  if (!modeBadge) return;
+  modeBadge.textContent = '';
+  modeBadge.classList.add('hidden-system-badge');
 }
 
 function getStoredPin() {
@@ -70,16 +70,6 @@ function unlock(pin = '') {
   adminContent.classList.remove('hidden-block');
   fillDateFilter();
   loadOrders();
-  startAutoRefresh();
-}
-
-function startAutoRefresh() {
-  window.clearInterval(refreshTimer);
-  refreshTimer = window.setInterval(() => {
-    if (!adminContent.classList.contains('hidden-block')) {
-      loadOrders(true);
-    }
-  }, Number(config.autoRefreshMs || 15000));
 }
 
 function fillDateFilter() {
@@ -222,7 +212,7 @@ async function loadOrders(silent = false) {
   try {
     currentOrders = await fetchOrders(dateFilter.value, getStoredPin());
     renderOrders();
-    lastSync.textContent = `Letzte Aktualisierung: ${formatDateTime(new Date())}`;
+    lastSync.textContent = `Zuletzt manuell geladen: ${formatDateTime(new Date())}`;
   } catch (error) {
     console.error(error);
     if (isPinProblem(error.message)) {

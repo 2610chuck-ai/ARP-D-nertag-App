@@ -1,5 +1,5 @@
 import { categoryMedia, employees, menuItems } from './data.js';
-import { config, createOrder, formatDate, formatEuro, getOrderWindow, hasLiveApi, normalizePhoneNumber } from './shared.js';
+import { config, createOrder, formatDate, formatEuro, getOrderWindow, normalizePhoneNumber } from './shared.js';
 
 const employeeSearch = document.querySelector('#employee-search');
 const employeeSelect = document.querySelector('#employee');
@@ -34,9 +34,9 @@ let cartItems = [];
 document.title = config.companyName;
 
 function setModeBadge() {
-  modeBadge.textContent = hasLiveApi() ? 'Live' : 'Demo';
-  modeBadge.classList.toggle('mode-live', hasLiveApi());
-  modeBadge.classList.toggle('mode-demo', !hasLiveApi());
+  if (!modeBadge) return;
+  modeBadge.textContent = '';
+  modeBadge.classList.add('hidden-system-badge');
 }
 
 function getCategoryMeta(categoryName) {
@@ -280,15 +280,13 @@ function renderComposerCard() {
   const selected = findSelectedItem();
 
   if (!selected) {
-    composerCard.innerHTML = `
-      <div class="composer-empty">
-        <strong>Noch kein Gericht ausgewählt</strong>
-        <p>Tippe links auf eine Speisekarten-Kachel. Danach kannst du den Wunschtext direkt diesem Gericht zuordnen.</p>
-      </div>
-    `;
+    composerCard.innerHTML = '';
+    composerCard.classList.add('is-empty');
     notesInput.placeholder = DEFAULT_NOTE_PLACEHOLDER;
     return;
   }
+
+  composerCard.classList.remove('is-empty');
 
   const { category, item } = selected;
   const media = getCategoryMeta(category.category);
@@ -332,7 +330,7 @@ function updatePaymentHint() {
   cartCountPill.textContent = `${cartItems.length} Artikel`;
 
   if (!cartItems.length) {
-    paymentHint.textContent = 'Lege zuerst mindestens ein Gericht in den Warenkorb.';
+    paymentHint.textContent = '';
     return;
   }
 
@@ -472,7 +470,7 @@ cancelEditBtn.addEventListener('click', () => {
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
-  submitMessage.textContent = 'Speichere Warenkorb...';
+  submitMessage.textContent = 'Sende Warenkorb...';
 
   const employeeName = employeeSelect.value.trim();
   if (!employeeName) {
@@ -521,11 +519,11 @@ form.addEventListener('submit', async (event) => {
     if (result.fallback === 'local') {
       submitMessage.textContent = result.mode === 'updated'
         ? 'Warenkorb lokal aktualisiert.'
-        : 'Warenkorb lokal gespeichert.';
+        : 'Warenkorb lokal abgesendet.';
     } else {
       submitMessage.textContent = result.mode === 'updated'
         ? 'Vorhandener Warenkorb wurde aktualisiert.'
-        : 'Warenkorb gespeichert.';
+        : 'Warenkorb abgesendet.';
     }
 
     if (customerPhone) {
@@ -544,7 +542,7 @@ form.addEventListener('submit', async (event) => {
 
     cartItems = [];
     amountPaidInput.value = '';
-    customerPhoneInput.value = '';
+    if (customerPhoneInput) customerPhoneInput.value = '';
     activeCategoryFilter = menuItems[0]?.category || '';
     resetComposer({ clearSelection: true });
     renderCategoryTabs();

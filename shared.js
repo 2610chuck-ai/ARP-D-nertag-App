@@ -110,7 +110,7 @@ export function getOrderWindow(now = new Date()) {
 
   const targetThursday = new Date(current);
   targetThursday.setDate(current.getDate() + daysUntilThursday);
-  targetThursday.setHours(10, 0, 0, 0);
+  targetThursday.setHours(11, 0, 0, 0);
 
   const isThursday = weekday === thursdayIndex;
   const isAfterCutoff = isThursday && current > targetThursday;
@@ -123,14 +123,14 @@ export function getOrderWindow(now = new Date()) {
   const thisWeekThursday = new Date(current);
   const daysToThisThursday = thursdayIndex - weekday;
   thisWeekThursday.setDate(current.getDate() + daysToThisThursday);
-  thisWeekThursday.setHours(10, 0, 0, 0);
+  thisWeekThursday.setHours(11, 0, 0, 0);
 
   return {
     now: current,
     targetThursday,
     targetThursdayDate: toLocalDateInputValue(targetThursday),
     nextWeekWarning: current > thisWeekThursday,
-    cutoffLabel: 'Donnerstag 10:00 Uhr'
+    cutoffLabel: 'Donnerstag bis 11:00 Uhr'
   };
 }
 

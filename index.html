@@ -2,22 +2,25 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Kebap-Bestellung</title>
-    <meta name="theme-color" content="#f97316" />
+    <meta name="theme-color" content="#09090b" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="stylesheet" href="./styles.css" />
     <script src="./config.js"></script>
   </head>
   <body>
     <div class="app-shell">
       <header class="hero shop-hero">
-        <div>
-          <span class="eyebrow">Donnerstags-Bestellung</span>
-          <h1>Kebap Warenkorb</h1>
+        <div class="brand-lockup">
+          <img class="brand-logo" src="./images/kebap-noble-logo.svg" alt="Kebap Logo" />
+          <div class="brand-copy">
+            <span class="eyebrow">Donnerstags-Bestellung</span>
+            <h1>Kebap Warenkorb</h1>
+          </div>
         </div>
-        <div class="hero-actions">
-          <span id="mode-badge" class="mode-badge"></span>
-        </div>
+        <span id="mode-badge" class="mode-badge hidden-system-badge" aria-hidden="true"></span>
       </header>
 
       <main class="layout shop-layout">
@@ -52,12 +55,7 @@
               </div>
             </div>
 
-            <section class="composer-card" id="composer-card">
-              <div class="composer-empty">
-                <strong>Noch kein Gericht ausgewählt</strong>
-                <p>Tippe links auf eine Speisekarten-Kachel. Danach kannst du den Wunschtext direkt diesem Gericht zuordnen.</p>
-              </div>
-            </section>
+            <section class="composer-card is-empty" id="composer-card"></section>
 
             <label class="field field-full">
               <span>Sonderwunsch zum gewählten Gericht</span>
@@ -92,22 +90,12 @@
                   required
                 />
               </label>
-              <label class="field field-full">
-                <span>Handynummer für WhatsApp-Bestätigung</span>
-                <input
-                  id="customer-phone"
-                  type="tel"
-                  inputmode="tel"
-                  autocomplete="tel"
-                  placeholder="z. B. 0151 23456789 oder +49 151 23456789"
-                />
-                <small class="field-hint">Mit der Eingabe der Nummer wird die Bestellbestätigung einmalig per WhatsApp an diese Nummer gesendet.</small>
-              </label>
-              <div id="payment-hint" class="payment-hint">Lege zuerst mindestens ein Gericht in den Warenkorb.</div>
+              <input id="customer-phone" type="hidden" value="" />
+              <div id="payment-hint" class="payment-hint hidden-block" hidden></div>
             </section>
 
             <div class="field field-full submit-row submit-column-on-mobile">
-              <button class="primary-btn wide-btn" type="submit">Warenkorb speichern</button>
+              <button class="primary-btn wide-btn" type="submit">Warenkorb absenden</button>
               <span id="submit-message" class="inline-message"></span>
             </div>
           </form>
