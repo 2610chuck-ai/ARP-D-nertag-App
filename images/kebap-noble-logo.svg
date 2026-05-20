@@ -1,0 +1,38 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kebap Logo">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="72%">
+      <stop offset="0%" stop-color="#3a2412"/>
+      <stop offset="55%" stop-color="#15110d"/>
+      <stop offset="100%" stop-color="#070707"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="54" y1="24" x2="204" y2="232" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fff3b0"/>
+      <stop offset="28%" stop-color="#f2bd4f"/>
+      <stop offset="58%" stop-color="#c7781d"/>
+      <stop offset="100%" stop-color="#7b3f12"/>
+    </linearGradient>
+    <linearGradient id="fire" x1="128" y1="54" x2="128" y2="176" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fff0a3"/>
+      <stop offset="42%" stop-color="#ff9f1c"/>
+      <stop offset="100%" stop-color="#d94714"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#000000" flood-opacity="0.55"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#f2bd4f" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <circle cx="128" cy="128" r="112" fill="url(#bg)"/>
+  <circle cx="128" cy="128" r="105" stroke="url(#gold)" stroke-width="7"/>
+  <circle cx="128" cy="128" r="91" stroke="#fff4c1" stroke-opacity="0.16" stroke-width="1.5"/>
+  <g filter="url(#shadow)">
+    <path d="M128 44C151 67 164 90 157 112C152 129 138 136 128 153C118 136 104 129 99 112C92 90 105 67 128 44Z" fill="url(#fire)"/>
+    <path d="M130 76C143 92 147 108 141 121C137 129 130 135 128 144C124 134 115 127 114 116C112 101 120 88 130 76Z" fill="#fff3b0" fill-opacity="0.88"/>
+    <path d="M72 164C98 153 123 148 151 153C168 156 181 165 188 178C191 184 186 190 179 188C146 178 112 178 79 188C72 190 67 184 70 178C70 177 71 171 72 164Z" fill="url(#gold)"/>
+    <path d="M83 167C112 160 143 160 173 168" stroke="#2a170b" stroke-opacity="0.55" stroke-width="7" stroke-linecap="round"/>
+    <path d="M73 197C108 187 148 187 183 197" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+    <path d="M89 210H167" stroke="#fff4c1" stroke-opacity="0.55" stroke-width="5" stroke-linecap="round"/>
+    <path d="M67 103L190 226" stroke="url(#gold)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M71 99L85 85" stroke="#fff4c1" stroke-opacity="0.8" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <path d="M58 66C78 45 102 34 128 34C157 34 183 47 202 70" stroke="#fff4c1" stroke-opacity="0.22" stroke-width="3" stroke-linecap="round"/>
+</svg>
